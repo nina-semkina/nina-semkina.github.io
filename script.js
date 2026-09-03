@@ -1,8 +1,32 @@
 'use strict';
 
 const THEME_STORAGE_KEY = 'portfolio-theme';
+const EMAIL_DECODE_KEY = 91;
+const OBFUSCATED_EMAIL = [
+  53, 50, 53, 58, 117, 40, 117, 40, 62, 54, 48, 50,
+  53, 58, 27, 60, 54, 58, 50, 55, 117, 56, 52, 54,
+];
 const root = document.documentElement;
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+function decodeEmail() {
+  return String.fromCharCode(
+    ...OBFUSCATED_EMAIL.map((value) => value ^ EMAIL_DECODE_KEY),
+  );
+}
+
+async function copyToClipboard(value) {
+  if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') {
+    return false;
+  }
+
+  try {
+    await navigator.clipboard.writeText(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 function getSavedTheme() {
   try {
@@ -66,9 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  const emailLink = document.querySelector('[data-email-link]');
+  const emailText = document.querySelector('[data-email-text]');
   const copyEmailButton = document.querySelector('[data-copy-email]');
   const copyNotice = document.querySelector('[data-copy-notice]');
+  const emailAddress = decodeEmail();
   let noticeTimer;
+
+  if (emailLink) {
+    emailLink.href = `mailto:${emailAddress}`;
+  }
+
+  if (emailText) {
+    emailText.textContent = emailAddress;
+  }
 
   if (!copyEmailButton) {
     return;
@@ -88,20 +123,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   copyEmailButton.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(copyEmailButton.dataset.copyEmail);
-      copyEmailButton.dataset.copied = 'true';
-      copyEmailButton.setAttribute('aria-label', 'Email address copied');
-      showCopyNotice('Email copied to clipboard');
+    const isCopied = await copyToClipboard(emailAddress);
 
-      window.setTimeout(() => {
-        delete copyEmailButton.dataset.copied;
-        copyEmailButton.setAttribute('aria-label', 'Copy email address');
-      }, 2000);
-    } catch {
+    if (!isCopied) {
       copyEmailButton.setAttribute('aria-label', 'Unable to copy email address');
       showCopyNotice('Unable to copy email address');
+      return;
     }
+
+    copyEmailButton.dataset.copied = 'true';
+    copyEmailButton.setAttribute('aria-label', 'Email address copied');
+    showCopyNotice('Email copied.');
+
+    window.setTimeout(() => {
+      delete copyEmailButton.dataset.copied;
+      copyEmailButton.setAttribute('aria-label', 'Copy email address');
+    }, 2000);
   });
 });
 
