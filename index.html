@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>Nina Semkina — Senior Android Engineer</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <script src="script.js"></script>
   </head>
   <body>
@@ -15,7 +18,45 @@
           <p>&lt;nina semkina /&gt;</p>
         </a>
 
-        <div class="site-header__actions">
+        <button
+          class="mobile-menu-toggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-controls="primary-menu"
+          aria-expanded="false"
+          data-menu-toggle
+        >
+          <img
+            class="mobile-menu-icon mobile-menu-icon--open theme-icon theme-icon--light"
+            src="assets/Name=icon-menu, Size=24, Theme Mode=Light.svg"
+            alt=""
+            width="24"
+            height="24"
+          >
+          <img
+            class="mobile-menu-icon mobile-menu-icon--open theme-icon theme-icon--dark"
+            src="assets/Name=icon-menu, Size=24, Theme Mode=Dark.svg"
+            alt=""
+            width="24"
+            height="24"
+          >
+          <img
+            class="mobile-menu-icon mobile-menu-icon--close theme-icon theme-icon--light"
+            src="assets/Name=icon-close, Size=24, Theme Mode=Light.svg"
+            alt=""
+            width="24"
+            height="24"
+          >
+          <img
+            class="mobile-menu-icon mobile-menu-icon--close theme-icon theme-icon--dark"
+            src="assets/Name=icon-close, Size=24, Theme Mode=Dark.svg"
+            alt=""
+            width="24"
+            height="24"
+          >
+        </button>
+
+        <div class="site-header__actions" id="primary-menu">
           <nav class="site-nav" aria-label="Primary navigation">
             <a href="#about">About</a>
             <a href="#experience">Experience</a>
@@ -24,27 +65,30 @@
 
           <span class="site-header__divider" aria-hidden="true"></span>
 
-          <button
-            class="theme-toggle"
-            type="button"
-            aria-label="Switch color theme"
-            data-theme-toggle
-          >
-            <img
-              class="theme-icon theme-icon--light"
-              src="assets/Name=icon-light-mode, Size=24, Theme Mode=Light.svg"
-              alt=""
-              width="24"
-              height="24"
+          <div class="theme-control">
+            <span class="theme-control__label">Switch Theme</span>
+            <button
+              class="theme-toggle"
+              type="button"
+              aria-label="Switch color theme"
+              data-theme-toggle
             >
-            <img
-              class="theme-icon theme-icon--dark"
-              src="assets/Name=icon-dark-mode, Size=24, Theme Mode=Dark.svg"
-              alt=""
-              width="24"
-              height="24"
-            >
-          </button>
+              <img
+                class="theme-icon theme-icon--light"
+                src="assets/Name=icon-light-mode, Size=24, Theme Mode=Light.svg"
+                alt=""
+                width="24"
+                height="24"
+              >
+              <img
+                class="theme-icon theme-icon--dark"
+                src="assets/Name=icon-dark-mode, Size=24, Theme Mode=Dark.svg"
+                alt=""
+                width="24"
+                height="24"
+              >
+            </button>
+          </div>
 
           <a
             class="resume-link"
